@@ -21,8 +21,8 @@
 
       // Update the GitHub file with the new content
       const fileContents = btoa(jsonContent); // Convert the JSON to base64
-      const apiUrl = 'https://api.github.com/repos/<username>/<repo>/contents/<path>/<to>/<file>'; // Replace with your own details
-      const authToken = '<personal access token>'; // Replace with your own token
+      const apiUrl = 'https://github.com/designerbrett/wrap-cms/blob/main/content.json'; // Replace with your own details
+      const authToken = 'Ge5uQHtLCnp8f3/xJo/Tji4db5v0+f3bqEVrp62IM5o='; // Replace with your own token
 
       fetch(apiUrl, {
         method: 'PUT',
