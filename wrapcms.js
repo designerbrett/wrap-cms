@@ -5,7 +5,7 @@ wrapcmsElements.forEach(function(element) {
     event.preventDefault();
 
     // Create the edit form dynamically based on the wrapcms element
-    var wrapcmsType = element.getAttribute('type');
+    var wrapcmsType = element.getAttribute('wrapcms');
     var editFormFields = getEditFormFields(wrapcmsType, element);
 
     // Add the form fields to the edit form
@@ -36,7 +36,7 @@ editForm.addEventListener('submit', function(event) {
       var response = JSON.parse(xhr.responseText);
       var wrapcmsType = response.type;
       var wrapcmsData = response.data;
-      var wrapcmsElement = document.querySelector('[type="' + wrapcmsType + '"]');
+      var wrapcmsElement = document.querySelector('[wrapcms="' + wrapcmsType + '"]');
       wrapcmsElement.innerHTML = wrapcmsData;
       var editModal = document.getElementById('edit-modal');
       editModal.style.display = 'none';
@@ -47,7 +47,7 @@ editForm.addEventListener('submit', function(event) {
 
 // Function to get the edit form fields based on the wrapcms element
 function getEditFormFields(wrapcmsType, element) {
-  var editFormFields = document.createElement('wrapcms');
+  var editFormFields = document.createElement('span');
   switch (wrapcmsType) {
     case 'title':
       var titleInput = document.createElement('input');
