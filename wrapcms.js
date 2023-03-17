@@ -19,6 +19,8 @@ wrapcmsElements.forEach(function(element) {
   });
 });
 
+
+
 // Add event listener to the edit form
 var editForm = document.getElementById('edit-form');
 editForm.addEventListener('submit', function(event) {
@@ -40,10 +42,34 @@ editForm.addEventListener('submit', function(event) {
       wrapcmsElement.innerHTML = wrapcmsData;
       var editModal = document.getElementById('edit-modal');
       editModal.style.display = 'none';
+
+      // Save the changes to GitHub
+      var xhr2 = new XMLHttpRequest();
+      xhr2.open('PUT', 'https://api.github.com/repos/designerbrett/wrapcms/contents/index.html');
+      xhr2.setRequestHeader('Authorization', 'Bearer SHA256:Ge5uQHtLCnp8f3/xJo/Tji4db5v0+f3bqEVrp62IM5o=');
+      xhr2.onreadystatechange = function() {
+        if (xhr2.readyState === XMLHttpRequest.DONE && xhr2.status === 200) {
+          console.log('Changes saved to GitHub.');
+        }
+      };
+      var commitMessage = 'Update HTML file';
+      var content = btoa(wrapcmsElement.outerHTML);
+      var data = {
+        "message": commitMessage,
+        "content": content,
+        "sha": "<file-sha>"
+      };
+      xhr2.send(JSON.stringify(data));
     }
   };
   xhr.send(formData);
 });
+
+
+
+
+
+
 
 // Function to get the edit form fields based on the wrapcms element
 function getEditFormFields(wrapcmsType, element) {
@@ -99,30 +125,3 @@ function cancelEdit() {
   editModal.style.display = 'none';
 }
 
-// Add event listener to the edit form
-var editForm = document.getElementById('edit-form');
-editForm.addEventListener('submit', function(event) {
-  event.preventDefault();
-
-  // Get the data from the edit form
-  var formData = new FormData(editForm);
-
-  // Send the data to the server-side script using AJAX
-  var xhr = new XMLHttpRequest();
-  xhr.open('POST', '/update-html');
-  xhr.onreadystatechange = function() {
-    if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-      // If the save is successful, update the DOM with the new content
-      var response = JSON.parse(xhr.responseText);
-      if (response.success) {
-        var wrapcmsType = response.type;
-        var wrapcmsData = response.data;
-        var wrapcmsElement = document.querySelector('[wrapcms="' + wrapcmsType + '"]');
-        wrapcmsElement.innerHTML = wrapcmsData;
-        var editModal = document.getElementById('edit-modal');
-        editModal.style.display = 'none';
-      }
-    }
-  };
-  xhr.send(formData);
-});
