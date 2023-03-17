@@ -14,7 +14,8 @@ wrapcmsElements.forEach(function(element) {
   // Get the wrapcms type and the input fields
   var wrapcmsType = element.getAttribute('wrapcms');
   var fieldName = element.getAttribute('field-name');
-  var inputFields = getEditFormFields(wrapcmsType, element);
+  var inputFields = getEditFormFields(wrapcmsType, fieldName, element);
+
 
   // Add the input fields to the edit form
   var editFormFieldsContainer = document.getElementById('edit-form-fields');
@@ -63,7 +64,7 @@ function getEditFormFields(wrapcmsType, element) {
       // Create the edit form dynamically based on the wrapcms element
       var wrapcmsType = element.getAttribute('wrapcms');
       var fieldName = element.getAttribute('field-name');
-      var editFormFields = getEditFormFields(wrapcmsType, element);
+      var editFormFields = getEditFormFields(wrapcmsType, fieldName, element);
   
       // Add the form fields to the edit form
       var editFormFieldsContainer = document.getElementById('edit-form-fields');
