@@ -99,5 +99,30 @@ function cancelEdit() {
   editModal.style.display = 'none';
 }
 
+// Add event listener to the edit form
+var editForm = document.getElementById('edit-form');
+editForm.addEventListener('submit', function(event) {
+  event.preventDefault();
 
-  
+  // Get the data from the edit form
+  var formData = new FormData(editForm);
+
+  // Send the data to the server-side script using AJAX
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', '/update-html');
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+      // If the save is successful, update the DOM with the new content
+      var response = JSON.parse(xhr.responseText);
+      if (response.success) {
+        var wrapcmsType = response.type;
+        var wrapcmsData = response.data;
+        var wrapcmsElement = document.querySelector('[wrapcms="' + wrapcmsType + '"]');
+        wrapcmsElement.innerHTML = wrapcmsData;
+        var editModal = document.getElementById('edit-modal');
+        editModal.style.display = 'none';
+      }
+    }
+  };
+  xhr.send(formData);
+});
