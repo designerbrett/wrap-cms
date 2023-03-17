@@ -21,7 +21,7 @@ wrapcmsElements.forEach(function(element) {
 
 // Show the edit modal
 var editModal = document.getElementById('edit-modal');
-editModal.style.display = 'block';
+editModal.style.display = 'none';
 
 
 
