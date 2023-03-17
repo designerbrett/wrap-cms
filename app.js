@@ -24,6 +24,22 @@
       const apiUrl = 'https://github.com/designerbrett/wrap-cms/blob/main/content.json'; // Replace with your own details
       const authToken = 'Ge5uQHtLCnp8f3/xJo/Tji4db5v0+f3bqEVrp62IM5o='; // Replace with your own token
 
+// Get the existing file details from GitHub
+fetch(apiUrl, {
+    method: 'GET',
+    headers: {
+      'Authorization': `Bearer ${authToken}`,
+    },
+  })
+  .then(response => response.json())
+  .then(data => {
+    const existingFile = data;
+    const existingFileContent = atob(existingFile.content); // Convert the base64 content to a string
+    const existingFileSha = existingFile.sha;
+  
+    // Check if the content has changed
+    if (jsonContent !== existingFileContent) {
+      // Update the GitHub file with the new content
       fetch(apiUrl, {
         method: 'PUT',
         headers: {
@@ -33,7 +49,7 @@
         body: JSON.stringify({
           message: 'Update content.json',
           content: fileContents,
-          sha: '<file sha>' // Replace with the sha of the existing file
+          sha: existingFileSha
         })
       })
       .then(response => {
@@ -42,3 +58,10 @@
       .catch(error => {
         console.error(error);
       });
+    } else {
+      console.log('Content has not changed.');
+    }
+  })
+  .catch(error => {
+    console.error(error);
+  });
