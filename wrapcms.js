@@ -46,7 +46,7 @@ editForm.addEventListener('submit', function(event) {
       // Save the changes to GitHub
       var xhr2 = new XMLHttpRequest();
       xhr2.open('PUT', 'https://api.github.com/repos/designerbrett/wrapcms/contents/index.html');
-      xhr2.setRequestHeader('Authorization', 'Bearer SHA256:Ge5uQHtLCnp8f3/xJo/Tji4db5v0+f3bqEVrp62IM5o=');
+      xhr2.setRequestHeader('Authorization', 'Bearer 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');
       xhr2.onreadystatechange = function() {
         if (xhr2.readyState === XMLHttpRequest.DONE && xhr2.status === 200) {
           console.log('Changes saved to GitHub.');
@@ -57,7 +57,7 @@ editForm.addEventListener('submit', function(event) {
       var data = {
         "message": commitMessage,
         "content": content,
-        "sha": "<file-sha>"
+        "sha": "0b901630c433bba0e571189e684e1dcbe72afe39506c7857b1df89147b36bf89"
       };
       xhr2.send(JSON.stringify(data));
     }
