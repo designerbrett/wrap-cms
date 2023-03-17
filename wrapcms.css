@@ -34,4 +34,9 @@
     padding: 8px;
     width: 98%;
     margin-bottom: 16px;
+    border-radius: 8px;
+}
+#edit-modal label {
+    font-weight: 700;
+    color: #666;
 }
