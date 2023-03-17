@@ -49,7 +49,7 @@ editModal.style.display = 'none';
 
 // Function to get the edit form fields based on the wrapcms element
 function getEditFormFields(wrapcmsType, element) {
-    var editFormFields = document.createElement('span');
+    var editFormFields = document.createElement('div');
     var editIcon = document.createElement('i');
     editIcon.classList.add('fas', 'fa-pencil-alt'); // Add your desired edit icon class here
     editIcon.addEventListener('click', function(event) {
