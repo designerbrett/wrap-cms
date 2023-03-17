@@ -9,14 +9,14 @@
     
     <p>Welcome to my website! Here is some content that you can edit:</p>
 
-    <div id="content-1" wrapcms data-title="Section 1">
-      <h2>Section 1</h2>
-      <p>This is some content that you can edit.</p>
+    <div id="content-1">
+      <h2 wrapcms="title">Section 1</h2>
+      <p wrapcms="content-01">This is some content that you can edit.</p>
     </div>
 
-    <div id="content-2" wrapcms data-title="Section 2">
-      <h2>Section 2</h2>
-      <p>This is some more content that you can edit.</p>
+    <div id="content-2"">
+      <h2 wrapcms="title">Section 2</h2>
+      <p wrapcms="content">This is some more content that you can edit.</p>
     </div>
 
     <!-- Modal HTML code -->
@@ -26,6 +26,7 @@
         <!-- This will be dynamically generated based on the wrapcms elements -->
       </div>
       <button type="submit">Save</button>
+      <button type="button" onclick="cancelEdit()">Cancel</button>
     </form>
   </div>
 
