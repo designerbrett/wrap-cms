@@ -46,27 +46,36 @@ function getEditFormFields(wrapcmsType, element) {
     });
     editFormFields.appendChild(editIcon);
     switch (wrapcmsType) {
-      case 'title':
-        var titleInput = document.createElement('input');
-        titleInput.type = 'text';
-        titleInput.name = 'title';
-        titleInput.value = element.querySelector('h1').innerHTML;
-        editFormFields.appendChild(titleInput);
-        break;
-      case 'heading-2':
-        var titleInput = document.createElement('input');
-        titleInput.type = 'text';
-        titleInput.name = 'heading 2';
-        titleInput.value = element.querySelector('h2').innerHTML;
-        editFormFields.appendChild(titleInput);
-        break;
-      case 'content':
-        var contentTextarea = document.createElement('textarea');
-        contentTextarea.name = 'content';
-        contentTextarea.innerHTML = element.querySelector('p').innerHTML;
-        editFormFields.appendChild(contentTextarea);
-        break;
-      // Add more cases for other wrapcms types
+        case 'title':
+          var titleInput = document.createElement('input');
+          titleInput.type = 'text';
+          titleInput.name = 'title';
+          titleInput.value = element.querySelector('h1').innerHTML;
+          titleInput.addEventListener('input', function(event) {
+            element.querySelector('h1').innerHTML = event.target.value;
+          });
+          editFormFields.appendChild(titleInput);
+          break;
+        case 'heading-2':
+          var titleInput = document.createElement('input');
+          titleInput.type = 'text';
+          titleInput.name = 'heading 2';
+          titleInput.value = element.querySelector('h2').innerHTML;
+          titleInput.addEventListener('input', function(event) {
+            element.querySelector('h2').innerHTML = event.target.value;
+          });
+          editFormFields.appendChild(heading2Input);
+          break;
+        case 'content':
+          var contentTextarea = document.createElement('textarea');
+          contentTextarea.name = 'content';
+          contentTextarea.innerHTML = element.querySelector('p').innerHTML;
+          contentTextarea.addEventListener('input', function(event) {
+            element.querySelector('p').innerHTML = event.target.value;
+          });
+          editFormFields.appendChild(contentTextarea);
+          break;
+        // Add more cases for other wrapcms types
     }
     return editFormFields;
   }
