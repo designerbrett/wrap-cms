@@ -8,15 +8,20 @@ wrapcmsElements.forEach(function(element) {
     var wrapcmsType = element.getAttribute('wrapcms');
     var editFormFields = getEditFormFields(wrapcmsType, element);
 
-    // Add the form fields to the edit form
-    var editFormFieldsContainer = document.getElementById('edit-form-fields');
-    editFormFieldsContainer.innerHTML = '';
-    editFormFieldsContainer.appendChild(editFormFields);
+// Add event listener to edit-field select element
+var editField = document.getElementById('edit-field');
+editField.addEventListener('change', function() {
+  // Create the edit form dynamically based on the selected field
+  var editFormFields = getEditFormFields(editField.value);
 
-    // Show the edit modal
-    var editModal = document.getElementById('edit-modal');
-    editModal.style.display = 'block';
-  });
+  // Add the form fields to the edit form
+  var editFormFieldsContainer = document.getElementById('edit-form-fields');
+  editFormFieldsContainer.innerHTML = '';
+  editFormFieldsContainer.appendChild(editFormFields);
+
+  // Show the edit modal
+  var editModal = document.getElementById('edit-modal');
+  editModal.style.display = 'block';
 });
 
 
