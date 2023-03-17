@@ -47,7 +47,7 @@ editForm.addEventListener('submit', function(event) {
 
 // Function to get the edit form fields based on the wrapcms element
 function getEditFormFields(wrapcmsType, element) {
-  var editFormFields = document.createElement('span');
+  var editFormFields = document.createElement('wrapcms');
   switch (wrapcmsType) {
     case 'title':
       var titleInput = document.createElement('input');
