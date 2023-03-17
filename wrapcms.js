@@ -3,7 +3,7 @@
 var wrapcmsElements = document.querySelectorAll('[wrapcms]');
 wrapcmsElements.forEach(function(element) {
   // Wrap the element with a container div
-  var containerDiv = document.createElement('div');
+  var containerDiv = document.createElement('span');
   containerDiv.classList.add('wrapcms-container');
   element.parentNode.insertBefore(containerDiv, element);
   containerDiv.appendChild(element);
@@ -60,7 +60,7 @@ editForm.addEventListener('submit', function(event) {
 function getEditFormFields(wrapcmsType, element) {
   var editFormFields = document.createElement('span');
   switch (wrapcmsType) {
-    case 'title':
+    case 'title-1':
       var titleInput = document.createElement('input');
       titleInput.type = 'text';
       titleInput.name = 'title';
