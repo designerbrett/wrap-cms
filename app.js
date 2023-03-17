@@ -7,6 +7,14 @@
         content[element.id] = element.innerHTML;
       });
 
+      // Add a save button
+const saveButton = document.createElement('button');
+saveButton.textContent = 'Save';
+document.body.appendChild(saveButton);
+
+// Save the content when the save button is clicked
+saveButton.addEventListener('click', function() {
+
       // Convert the content object to JSON
       const jsonContent = JSON.stringify(content);
 
