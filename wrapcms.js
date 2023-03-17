@@ -1,55 +1,68 @@
-// select all HTML elements with the wrapcms tag
-const wrapcmsElems = document.querySelectorAll('[wrapcms]');
-
-// load the form HTML from a separate file
-fetch('form.html')
-  .then(response => response.text())
-  .then(html => {
-    // create a new div element to contain the form
-    const formContainer = document.createElement('div');
-    formContainer.innerHTML = html;
-
-    // select the form and input fields from the loaded HTML
-    const formElem = formContainer.querySelector('#edit-form');
-    const titleInput = formContainer.querySelector('#title');
-    const contentInput = formContainer.querySelector('#content');
-
-    // loop through the wrapcms elements and add click event listeners
-    wrapcmsElems.forEach(elem => {
-      elem.addEventListener('click', () => {
-        // set the input field values to the current element content
-        titleInput.value = elem.getAttribute('data-title') || '';
-        contentInput.value = elem.innerHTML.trim();
-
-        // show the form and focus on the title input
-        formElem.style.display = 'block';
-        titleInput.focus();
-
-        // update the element content when the form is submitted
-        formElem.addEventListener('submit', event => {
-          event.preventDefault();
-          elem.setAttribute('data-title', titleInput.value);
-          elem.innerHTML = contentInput.value;
-          formElem.style.display = 'none';
-
-          // send the updated content to the server-side script using AJAX
-          const xhr = new XMLHttpRequest();
-          xhr.open('POST', 'save.php'); // replace 'save.php' with your server-side script URL
-          xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-          xhr.onreadystatechange = function() {
-            if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-              console.log('Content saved successfully');
-            }
-          };
-          const data = { id: elem.id, title: titleInput.value, content: contentInput.value };
-          xhr.send(`data=${JSON.stringify(data)}`);
-        });
+    // Add event listener to wrapcms elements
+    var wrapcmsElements = document.querySelectorAll('[wrapcms]');
+    wrapcmsElements.forEach(function(element) {
+      element.addEventListener('click', function(event) {
+        event.preventDefault();
+  
+        // Create the edit form dynamically based on the wrapcms element
+        var wrapcmsType = element.getAttribute('wrapcms');
+        var editFormFields = getEditFormFields(wrapcmsType);
+  
+        // Add the form fields to the edit form
+        var editFormFieldsContainer = document.getElementById('edit-form-fields');
+        editFormFieldsContainer.innerHTML = '';
+        editFormFieldsContainer.appendChild(editFormFields);
+  
+        // Show the edit modal
+        var editModal = document.getElementById('edit-modal');
+        editModal.style.display = 'block';
       });
     });
-
-    // add the form to the page
-    document.body.appendChild(formElem);
-  })
-  .catch(error => {
-    console.error('Error loading form:', error);
-  });
+  
+    // Add event listener to the edit form
+    var editForm = document.getElementById('edit-form');
+    editForm.addEventListener('submit', function(event) {
+      event.preventDefault();
+  
+      // Get the data from the edit form
+      var formData = new FormData(editForm);
+  
+      // Send the data to the server-side script using AJAX
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', '/save');
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+          // If the save is successful, hide the edit modal and update the wrapcms element
+          var response = JSON.parse(xhr.responseText);
+          var wrapcmsType = response.type;
+          var wrapcmsData = response.data;
+          var wrapcmsElement = document.querySelector('[wrapcms="' + wrapcmsType + '"]');
+          wrapcmsElement.innerHTML = wrapcmsData;
+          var editModal = document.getElementById('edit-modal');
+          editModal.style.display = 'none';
+        }
+      };
+      xhr.send(formData);
+    });
+  
+    // Function to get the edit form fields based on the wrapcms element
+    function getEditFormFields(wrapcmsType) {
+      var editFormFields = document.createElement('div');
+      switch (wrapcmsType) {
+        case 'title':
+          var titleInput = document.createElement('input');
+          titleInput.type = 'text';
+          titleInput.name = 'title';
+          titleInput.value = document.querySelector('[wrapcms="title"] h1').innerHTML;
+          editFormFields.appendChild(titleInput);
+          break;
+        case 'content':
+          var contentTextarea = document.createElement('textarea');
+          contentTextarea.name = 'content';
+          contentTextarea.innerHTML = document.querySelector('[wrapcms="content"] p').innerHTML;
+          editFormFields.appendChild(contentTextarea);
+          break;
+        // Add more cases for other wrapcms types
+      }
+      return editFormFields;
+    }
