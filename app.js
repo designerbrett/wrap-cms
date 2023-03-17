@@ -36,7 +36,7 @@ saveButton.addEventListener('click', function() {
 
   // Update the GitHub file with the new content
   const fileContents = btoa(jsonContent); // Convert the JSON to base64
-  const apiUrl = 'https://github.com/designerbrett/wrap-cms/blob/main/content.json'; // Replace with your own details
+  const apiUrl = 'https://github.com/designerbrett/wrap-cms/content.json'; // Replace with your own details
   const authToken = 'Ge5uQHtLCnp8f3/xJo/Tji4db5v0+f3bqEVrp62IM5o='; // Replace with your own token
 
   // Get the existing file details from GitHub
