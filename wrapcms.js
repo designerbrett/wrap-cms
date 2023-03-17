@@ -13,7 +13,7 @@ wrapcmsElements.forEach(function(element) {
 
 // Show the edit modal
 var editModal = document.getElementById('edit-modal');
-editModal.style.display = 'block';
+editModal.style.display = 'none';
 
 
 
@@ -70,6 +70,8 @@ editForm.addEventListener('submit', function(event) {
 // Function to get the edit form fields based on the wrapcms element
 function getEditFormFields(wrapcmsType, element) {
     var editFormFields = document.createElement('span');
+    var editIcon = document.createElement('i');
+    editIcon.classList.add('fas', 'fa-pencil-alt'); // Add your desired edit icon class here
     editIcon.addEventListener('click', function(event) {
       event.preventDefault();
   
@@ -86,7 +88,7 @@ function getEditFormFields(wrapcmsType, element) {
       var editModal = document.getElementById('edit-modal');
       editModal.style.display = 'block';
     });
-    
+    editFormFields.appendChild(editIcon);
     switch (wrapcmsType) {
       case 'title':
         var titleInput = document.createElement('input');
