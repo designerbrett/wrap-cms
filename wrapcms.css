@@ -28,3 +28,10 @@
   text-decoration: none;
   cursor: pointer;
 }
+
+#edit-modal input {
+    font-size: 16px;
+    padding: 8px;
+    width: 98%;
+    margin-bottom: 16px;
+}

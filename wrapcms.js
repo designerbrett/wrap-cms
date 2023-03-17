@@ -13,6 +13,7 @@ var wrapcmsElements = document.querySelectorAll('[wrapcms]');
 wrapcmsElements.forEach(function(element) {
   // Get the wrapcms type and the input fields
   var wrapcmsType = element.getAttribute('wrapcms');
+  var fieldName = element.getAttribute('field-name');
   var inputFields = getEditFormFields(wrapcmsType, element);
 
   // Add the input fields to the edit form
@@ -50,6 +51,10 @@ editModal.style.display = 'none';
 // Function to get the edit form fields based on the wrapcms element
 function getEditFormFields(wrapcmsType, element) {
     var editFormFields = document.createElement('div');
+    var fieldLabel = document.createElement('label');
+  fieldLabel.innerHTML = fieldName + ':';
+  editFormFields.appendChild(fieldLabel);
+
     var editIcon = document.createElement('i');
     editIcon.classList.add('fas', 'fa-pencil-alt'); // Add your desired edit icon class here
     editIcon.addEventListener('click', function(event) {
@@ -57,6 +62,7 @@ function getEditFormFields(wrapcmsType, element) {
   
       // Create the edit form dynamically based on the wrapcms element
       var wrapcmsType = element.getAttribute('wrapcms');
+      var fieldName = element.getAttribute('field-name');
       var editFormFields = getEditFormFields(wrapcmsType, element);
   
       // Add the form fields to the edit form
