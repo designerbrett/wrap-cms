@@ -58,10 +58,10 @@ function getEditFormFields(wrapcmsType, element) {
           break;
         case 'heading-2':
           var titleInput = document.createElement('input');
-          titleInput.type = 'text';
-          titleInput.name = 'heading 2';
-          titleInput.value = element.querySelector('h2').innerHTML;
-          titleInput.addEventListener('input', function(event) {
+          heading2Input.type = 'text';
+          heading2Input.name = 'heading 2';
+          heading2Input.value = element.querySelector('h2').innerHTML;
+          heading2Input.addEventListener('input', function(event) {
             element.querySelector('h2').innerHTML = event.target.value;
           });
           editFormFields.appendChild(heading2Input);
