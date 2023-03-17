@@ -1,22 +1,12 @@
 // Add event listener to wrapcms elements
-// Add event listener to wrapcms elements
 var wrapcmsElements = document.querySelectorAll('[wrapcms]');
 wrapcmsElements.forEach(function(element) {
-  // Wrap the element with a container div
-  var containerDiv = document.createElement('span');
-  containerDiv.classList.add('wrapcms-container');
-  element.parentNode.insertBefore(containerDiv, element);
-  containerDiv.appendChild(element);
-
-  // Add an edit icon to the container div
-  var editIcon = document.createElement('i');
-  editIcon.classList.add('fa', 'fa-edit');
-  editIcon.addEventListener('click', function(event) {
+  element.addEventListener('click', function(event) {
     event.preventDefault();
 
     // Create the edit form dynamically based on the wrapcms element
     var wrapcmsType = element.getAttribute('wrapcms');
-    var editFormFields = getEditFormFields(wrapcmsType);
+    var editFormFields = getEditFormFields(wrapcmsType, element);
 
     // Add the form fields to the edit form
     var editFormFieldsContainer = document.getElementById('edit-form-fields');
@@ -27,7 +17,6 @@ wrapcmsElements.forEach(function(element) {
     var editModal = document.getElementById('edit-modal');
     editModal.style.display = 'block';
   });
-  containerDiv.appendChild(editIcon);
 });
 
 // Add event listener to the edit form
@@ -60,11 +49,18 @@ editForm.addEventListener('submit', function(event) {
 function getEditFormFields(wrapcmsType, element) {
   var editFormFields = document.createElement('span');
   switch (wrapcmsType) {
-    case 'title-1':
+    case 'title':
       var titleInput = document.createElement('input');
       titleInput.type = 'text';
       titleInput.name = 'title';
       titleInput.value = element.querySelector('h1').innerHTML;
+      editFormFields.appendChild(titleInput);
+      break;
+    case 'heading-2':
+      var titleInput = document.createElement('input');
+      titleInput.type = 'text';
+      titleInput.name = 'heading 2';
+      titleInput.value = element.querySelector('h2').innerHTML;
       editFormFields.appendChild(titleInput);
       break;
     case 'content':
