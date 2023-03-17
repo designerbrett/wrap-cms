@@ -1,39 +1,46 @@
-      // Get all elements with the "contenteditable" attribute
-      const editableElements = document.querySelectorAll('[contenteditable]');
+// Get all elements with the "editable" class
+const editableElements = document.querySelectorAll('.editable');
 
-      // Create an object to store the HTML content and corresponding element IDs
-      const content = {};
-      editableElements.forEach(element => {
-        content[element.id] = element.innerHTML;
-      });
+// Add a contenteditable attribute to each editable element
+editableElements.forEach(function(element) {
+  element.setAttribute('contenteditable', true);
+});
 
-      // Add a save button
+// Add a save button
 const saveButton = document.createElement('button');
 saveButton.textContent = 'Save';
 document.body.appendChild(saveButton);
 
 // Save the content when the save button is clicked
 saveButton.addEventListener('click', function() {
+  // Create an object to store the edited elements
+  const editedElements = {};
 
-      // Convert the content object to JSON
-      const jsonContent = JSON.stringify(content);
+  // Update the JSON content with the edited elements
+  editableElements.forEach(function(element) {
+    const id = element.id;
+    const content = element.innerHTML;
 
-      // Save the JSON content to a file
-      const file = new Blob([jsonContent], {type: 'application/json'});
-      const fileName = 'content.json';
-      const fileUrl = URL.createObjectURL(file);
-      const fileLink = document.createElement('a');
-      fileLink.href = fileUrl;
-      fileLink.download = fileName;
-      fileLink.click();
+    editedElements[id] = content;
+  });
 
-      // Update the GitHub file with the new content
-      const fileContents = btoa(jsonContent); // Convert the JSON to base64
-      const apiUrl = 'https://github.com/designerbrett/wrap-cms/blob/main/content.json'; // Replace with your own details
-      const authToken = 'Ge5uQHtLCnp8f3/xJo/Tji4db5v0+f3bqEVrp62IM5o='; // Replace with your own token
+  const jsonContent = JSON.stringify(editedElements);
 
-// Get the existing file details from GitHub
-fetch(apiUrl, {
+  // Update the HTML content with the edited elements
+  editableElements.forEach(function(element) {
+    const id = element.id;
+    const content = editedElements[id];
+
+    element.innerHTML = content;
+  });
+
+  // Update the GitHub file with the new content
+  const fileContents = btoa(jsonContent); // Convert the JSON to base64
+  const apiUrl = 'https://github.com/designerbrett/wrap-cms/blob/main/content.json'; // Replace with your own details
+  const authToken = 'Ge5uQHtLCnp8f3/xJo/Tji4db5v0+f3bqEVrp62IM5o='; // Replace with your own token
+
+  // Get the existing file details from GitHub
+  fetch(apiUrl, {
     method: 'GET',
     headers: {
       'Authorization': `Bearer ${authToken}`,
@@ -44,7 +51,7 @@ fetch(apiUrl, {
     const existingFile = data;
     const existingFileContent = atob(existingFile.content); // Convert the base64 content to a string
     const existingFileSha = existingFile.sha;
-  
+
     // Check if the content has changed
     if (jsonContent !== existingFileContent) {
       // Update the GitHub file with the new content
@@ -73,3 +80,4 @@ fetch(apiUrl, {
   .catch(error => {
     console.error(error);
   });
+});
