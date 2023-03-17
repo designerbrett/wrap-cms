@@ -44,7 +44,7 @@ function getEditFormFields(wrapcmsType, element) {
       var editModal = document.getElementById('edit-modal');
       editModal.style.display = 'block';
     });
-    editFormFields.appendChild(editIcon);
+   
     switch (wrapcmsType) {
         case 'title':
           var titleInput = document.createElement('input');
