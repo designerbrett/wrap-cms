@@ -1,4 +1,12 @@
-// Add event listener to wrapcms elements
+// Add event listener to edit button
+var editButton = document.getElementById('edit-button');
+editButton.addEventListener('click', function(event) {
+  event.preventDefault();
+
+  // Show the edit modal
+  var editModal = document.getElementById('edit-modal');
+  editModal.style.display = 'block';
+});
 // Find all wrapcms elements and display their editable inputs in the modal
 var wrapcmsElements = document.querySelectorAll('[wrapcms]');
 wrapcmsElements.forEach(function(element) {
@@ -13,7 +21,7 @@ wrapcmsElements.forEach(function(element) {
 
 // Show the edit modal
 var editModal = document.getElementById('edit-modal');
-editModal.style.display = 'none';
+editModal.style.display = 'block';
 
 
 
