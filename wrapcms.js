@@ -7,6 +7,7 @@ editButton.addEventListener('click', function(event) {
   var editModal = document.getElementById('edit-modal');
   editModal.style.display = 'block';
 });
+
 // Find all wrapcms elements and display their editable inputs in the modal
 var wrapcmsElements = document.querySelectorAll('[wrapcms]');
 wrapcmsElements.forEach(function(element) {
@@ -17,6 +18,29 @@ wrapcmsElements.forEach(function(element) {
   // Add the input fields to the edit form
   var editFormFieldsContainer = document.getElementById('edit-form-fields');
   editFormFieldsContainer.appendChild(inputFields);
+
+  // Save the edited content to localStorage when the input fields change
+  inputFields.addEventListener('change', function() {
+    var editedContent = inputFields.querySelector('[name]').value;
+    localStorage.setItem(wrapcmsType, editedContent);
+  });
+
+  // Load the edited content from localStorage
+  var editedContent = localStorage.getItem(wrapcmsType);
+  if (editedContent) {
+    switch (wrapcmsType) {
+      case 'title':
+        element.querySelector('h1').innerHTML = editedContent;
+        break;
+      case 'heading-2':
+        element.querySelector('h2').innerHTML = editedContent;
+        break;
+      case 'content':
+        element.querySelector('p').innerHTML = editedContent;
+        break;
+      // Add more cases for other wrapcms types
+    }
+  }
 });
 
 // Show the edit modal
