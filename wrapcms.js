@@ -96,8 +96,8 @@ function cancelEdit() {
 }
 
 // Importing header and footer global files
-import { generateHeader } from './header.js';
-import { generateFooter } from './footer.js';
+import { generateHeader } from '/header.js';
+import { generateFooter } from '/footer.js';
 
 const header = generateHeader();
 const footer = generateFooter();
