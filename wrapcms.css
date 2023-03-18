@@ -5,6 +5,7 @@ font-size: 16px;
 }
 button {
     padding: 16px 24px;
+    display: inline-block;
 }
 #edit-modal {
   display: none;
