@@ -118,12 +118,3 @@ const footer = generateFooter();
 document.body.prepend(header);
 document.body.append(footer);
 
-// Check if user is logged in
-if (localStorage.getItem('isLoggedIn') === 'true') {
-  // User is logged in, add "logged-in" class to body element
-  document.body.classList.add('logged-in');
-} else {
-  // User is not logged in, remove "logged-in" class from body element
-  document.body.classList.remove('logged-in');
-}
-
