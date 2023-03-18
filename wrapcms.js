@@ -107,3 +107,13 @@ tinymce.init({
     'alignleft aligncenter alignright alignjustify | ' +
       'bullist numlist checklist outdent indent | removeformat | a11ycheck code table help'
    });
+
+
+import { generateHeader } from './header.js';
+import { generateFooter } from './footer.js';
+
+const header = generateHeader();
+const footer = generateFooter();
+
+document.body.prepend(header);
+document.body.append(footer);
