@@ -104,6 +104,15 @@ function getEditFormFields(wrapcmsType, fieldName, element) {
       });
       editFormFields.appendChild(headingInput);
       break;
+    case 'seo':
+      var contentSeo = document.createElement('input');
+      contentSeo.name = 'seo';
+      contentSeo.innerHTML = element.querySelector('meta').innerHTML;
+      contentSeo.addEventListener('input', function(event) {
+        element.querySelector('meta').innerHTML = event.target.value;
+      });
+      editFormFields.appendChild(contentSeo);
+      break;
     case 'content':
       var contentTextarea = document.createElement('textarea');
       contentTextarea.name = 'content';
