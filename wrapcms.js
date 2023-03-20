@@ -95,4 +95,16 @@ function cancelEdit() {
   editModal.style.display = 'none';
 }
 
+// Select the wrap-header element
+var wrapHeader = document.querySelector('wrap-header');
 
+// Load the custom HTML from a separate file
+var xhr = new XMLHttpRequest();
+xhr.open('GET', './header.html', true);
+xhr.onreadystatechange = function() {
+  if (xhr.readyState === 4 && xhr.status === 200) {
+    // Set the innerHTML of the wrap-header element to the loaded HTML
+    wrapHeader.innerHTML = xhr.responseText;
+  }
+};
+xhr.send();
