@@ -95,12 +95,4 @@ function cancelEdit() {
   editModal.style.display = 'none';
 }
 
-// Importing header and footer global files
-import { generateHeader } from '/header.js';
-import { generateFooter } from '/footer.js';
 
-const header = generateHeader();
-const footer = generateFooter();
-
-document.body.prepend(header);
-document.body.append(footer);
