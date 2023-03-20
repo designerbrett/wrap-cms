@@ -113,24 +113,6 @@ function getEditFormFields(wrapcmsType, fieldName, element) {
       });
       editFormFields.appendChild(contentTextarea);
       break;
-    case 'seo':
-      var metaTitleInput = document.createElement('input');
-      metaTitleInput.type = 'text';
-      metaTitleInput.name = 'meta-title';
-      metaTitleInput.value = element.querySelector('meta[name="title"]').getAttribute('content');
-      metaTitleInput.addEventListener('input', function(event) {
-        element.querySelector('meta[name="title"]').setAttribute('content', event.target.value);
-      });
-      editFormFields.appendChild(metaTitleInput);
-  
-      var metaDescriptionTextarea = document.createElement('textarea');
-      metaDescriptionTextarea.name = 'meta-description';
-      metaDescriptionTextarea.innerHTML = element.querySelector('meta[name="description"]').getAttribute('content');
-      metaDescriptionTextarea.addEventListener('input', function(event) {
-        element.querySelector('meta[name="description"]').setAttribute('content', event.target.value);
-      });
-      editFormFields.appendChild(metaDescriptionTextarea);
-      break;
     // Add more cases for other wrapcms types
   }
   return editFormFields;
