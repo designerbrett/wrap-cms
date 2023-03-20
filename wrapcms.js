@@ -1,16 +1,31 @@
 // Select the wrap-header element
 var wrapHeader = document.querySelector('wrap-header');
 
-// Load the custom HTML from a separate file
-var xhr = new XMLHttpRequest();
-xhr.open('GET', '/header.html', true);
-xhr.onreadystatechange = function() {
-  if (xhr.readyState === 4 && xhr.status === 200) {
+// Load the custom header HTML from a separate file
+var headerXhr = new XMLHttpRequest();
+headerXhr.open('GET', '/header.html', true);
+headerXhr.onreadystatechange = function() {
+  if (headerXhr.readyState === 4 && headerXhr.status === 200) {
     // Set the innerHTML of the wrap-header element to the loaded HTML
-    wrapHeader.innerHTML = xhr.responseText;
+    wrapHeader.innerHTML = headerXhr.responseText;
   }
 };
-xhr.send();
+headerXhr.send();
+
+// Select the wrap-footer element
+var wrapFooter = document.querySelector('wrap-footer');
+
+// Load the custom footer HTML from a separate file
+var footerXhr = new XMLHttpRequest();
+footerXhr.open('GET', '/footer.html', true);
+footerXhr.onreadystatechange = function() {
+  if (footerXhr.readyState === 4 && footerXhr.status === 200) {
+    // Set the innerHTML of the wrap-footer element to the loaded HTML
+    wrapFooter.innerHTML = footerXhr.responseText;
+  }
+};
+footerXhr.send();
+
 
 var editButton = document.getElementById('edit-button');
 editButton.addEventListener('click', function(event) {
