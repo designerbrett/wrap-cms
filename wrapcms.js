@@ -99,6 +99,7 @@ function getEditFormFields(wrapcmsType, fieldName, element) {
       var titleInput = document.createElement('input');
       titleInput.type = 'text';
       titleInput.name = 'title';
+      titleInput.id = uuidv4();
       var h1 = element.querySelector('h1');
       titleInput.value = h1 !== null ? h1.innerHTML : '';
       titleInput.addEventListener('input', function(event) {
@@ -116,6 +117,7 @@ function getEditFormFields(wrapcmsType, fieldName, element) {
       var headingInput = document.createElement('input');
       headingInput.type = 'text';
       headingInput.name = 'heading-2';
+      headingInput.id = uuidv4();
       var h2 = element.querySelector('h2');
       headingInput.value = h2 !== null ? h2.innerHTML : '';
       headingInput.addEventListener('input', function(event) {
@@ -132,6 +134,7 @@ function getEditFormFields(wrapcmsType, fieldName, element) {
     case 'content':
       var contentTextarea = document.createElement('textarea');
       contentTextarea.name = 'content';
+      contentTextarea.id = uuidv4();
       var p = element.querySelector('p');
       contentTextarea.innerHTML = p !== null ? p.innerHTML : '';
       contentTextarea.addEventListener('input', function(event) {
@@ -148,6 +151,14 @@ function getEditFormFields(wrapcmsType, fieldName, element) {
     // Add more cases for other wrapcms types
   }
   return editFormFields;
+}
+
+// Function to generate a unique ID
+function uuidv4() {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString(16);
+  });
 }
 
 
