@@ -1,27 +1,3 @@
-// Get the current UID count from local storage
-let uidCount = parseInt(localStorage.getItem('uidCount')) || 0;
-
-// Increment the UID count and generate a new UID
-const newUid = ++uidCount;
-
-// Save the new UID count to local storage
-localStorage.setItem('uidCount', uidCount);
-
-// Add the new UID as a class with a prefix of "wrapcms-pageid-"
-document.body.classList.add(`wrapcms-pageid-${newUid}`);
-
-// Get the current page's URL path
-console.log(fileName);
-document.body.classList.add(fileName);
-const path = location.pathname;
-
-// Extract the file name from the URL path
-const fileName = path.substring(path.lastIndexOf('/') + 1);
-
-// Add the file name as a body class
-document.body.classList.add(fileName);
-
-
 // Select the wrap-header element
 var wrapHeader = document.querySelector('wrap-header');
 
@@ -49,6 +25,29 @@ footerXhr.onreadystatechange = function() {
   }
 };
 footerXhr.send();
+
+// Get the current UID count from local storage
+let uidCount = parseInt(localStorage.getItem('uidCount')) || 0;
+
+// Increment the UID count and generate a new UID
+const newUid = ++uidCount;
+
+// Save the new UID count to local storage
+localStorage.setItem('uidCount', uidCount);
+
+// Add the new UID as a class with a prefix of "wrapcms-pageid-"
+document.body.classList.add(`wrapcms-pageid-${newUid}`);
+
+// Get the current page's URL path
+console.log(fileName);
+document.body.classList.add(fileName);
+const path = location.pathname;
+
+// Extract the file name from the URL path
+const fileName = path.substring(path.lastIndexOf('/') + 1);
+
+// Add the file name as a body class
+document.body.classList.add(fileName);
 
 
 var editButton = document.getElementById('edit-button');
