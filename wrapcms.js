@@ -98,6 +98,8 @@ function getEditFormFields() {
       formFields[fieldName] = fieldValue;
     }
   });
+  return formFields;
+}
 
   switch (wrapcmsType) {
     case 'title':
