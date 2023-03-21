@@ -1,3 +1,18 @@
+// Generate a random UID
+const uid = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+
+// Add the UID as a class with a prefix of "wrapcms-pageid-"
+document.body.classList.add(`wrapcms-pageid-${uid}`);
+
+// Get the current page's URL path
+const path = location.pathname;
+
+// Extract the file name from the URL path
+const fileName = path.substring(path.lastIndexOf('/') + 1);
+
+// Add the file name as a body class
+document.body.classList.add(fileName);
+
 // Select the wrap-header element
 var wrapHeader = document.querySelector('wrap-header');
 
