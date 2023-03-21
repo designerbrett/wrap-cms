@@ -96,6 +96,8 @@ function getEditFormFields() {
       var fieldName = el.dataset.field;
       var fieldValue = el.innerHTML.trim();
       formFields[fieldName] = fieldValue;
+    }
+  });
 
   switch (wrapcmsType) {
     case 'title':
