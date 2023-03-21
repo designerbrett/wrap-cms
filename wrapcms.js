@@ -102,9 +102,9 @@ function getEditFormFields(wrapcmsType, fieldName, element) {
       var h1 = element.querySelector('h1');
       titleInput.value = h1 !== null ? h1.innerHTML : '';
       titleInput.addEventListener('input', function(event) {
-        element.querySelector('h1')?.innerHTML = event.target.value;
         var h1 = element.querySelector('h1');
-        if (h1 !== null) {
+        if (h1 !== null && h1 !== undefined) {
+          h1.innerHTML = event.target.value;
           titleInput.value = h1.innerHTML;
         } else {
           titleInput.value = '';
@@ -112,35 +112,7 @@ function getEditFormFields(wrapcmsType, fieldName, element) {
       });
       editFormFields.appendChild(titleInput);
       break;
-    case 'heading-2':
-      var headingInput = document.createElement('input');
-      headingInput.type = 'text';
-      headingInput.name = 'heading-2';
-      var h2 = element.querySelector('h2');
-      headingInput.value = h2 !== null ? h2.innerHTML : '';
-      headingInput.addEventListener('input', function(event) {
-        element.querySelector('h2')?.innerHTML = event.target.value;
-        var h2 = element.querySelector('h2');
-        if (h2 !== null) {
-          h2.innerHTML = event.target.value;
-        }
-      });
-      editFormFields.appendChild(headingInput);
-      break;
-    case 'content':
-      var contentTextarea = document.createElement('textarea');
-      contentTextarea.name = 'content';
-      var p = element.querySelector('p');
-      contentTextarea.innerHTML = p !== null ? p.innerHTML : '';
-      contentTextarea.addEventListener('input', function(event) {
-        element.querySelector('p')?.innerHTML = event.target.value;
-        var p = element.querySelector('p');
-        if (p !== null) {
-          p.innerHTML = event.target.value;
-        }
-      });
-      editFormFields.appendChild(contentTextarea);
-      break;
+    
     // Add more cases for other wrapcms types
   }
   return editFormFields;
