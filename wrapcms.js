@@ -90,7 +90,7 @@ editModal.style.display = 'none';
 
 // Function to get the edit form fields based on the wrapcms element
 function getEditFormFields(wrapcmsType, fieldName, element) {
-  var editFormFields = document.createElement('div');
+  var editFormFields = document.createElement('span');
   var fieldLabel = document.createElement('label');
   fieldLabel.innerHTML = fieldName + ':';
   editFormFields.appendChild(fieldLabel);
