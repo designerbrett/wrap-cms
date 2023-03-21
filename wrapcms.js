@@ -112,11 +112,44 @@ function getEditFormFields(wrapcmsType, fieldName, element) {
       });
       editFormFields.appendChild(titleInput);
       break;
-    
+    case 'heading-2':
+      var headingInput = document.createElement('input');
+      headingInput.type = 'text';
+      headingInput.name = 'heading-2';
+      var h2 = element.querySelector('h2');
+      headingInput.value = h2 !== null ? h2.innerHTML : '';
+      headingInput.addEventListener('input', function(event) {
+        var h2 = element.querySelector('h2');
+        if (h2 !== null && h2 !== undefined) {
+          h2.innerHTML = event.target.value;
+          headingInput.value = h2.innerHTML;
+        } else {
+          headingInput.value = '';
+        }
+      });
+      editFormFields.appendChild(headingInput);
+      break;
+    case 'content':
+      var contentTextarea = document.createElement('textarea');
+      contentTextarea.name = 'content';
+      var p = element.querySelector('p');
+      contentTextarea.innerHTML = p !== null ? p.innerHTML : '';
+      contentTextarea.addEventListener('input', function(event) {
+        var p = element.querySelector('p');
+        if (p !== null && p !== undefined) {
+          p.innerHTML = event.target.value;
+          contentTextarea.value = p.innerHTML;
+        } else {
+          contentTextarea.value = '';
+        }
+      });
+      editFormFields.appendChild(contentTextarea);
+      break;
     // Add more cases for other wrapcms types
   }
   return editFormFields;
 }
+
 
 
 // Function to cancel editing and hide the modal
