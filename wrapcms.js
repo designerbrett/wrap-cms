@@ -18,6 +18,7 @@ const fileName = path.substring(path.lastIndexOf('/') + 1);
 
 // Add the file name as a body class
 document.body.classList.add(fileName);
+console.log(`uidCount: ${localStorage.getItem('uidCount')}`);
 
 // Select the wrap-header element
 var wrapHeader = document.querySelector('wrap-header');
