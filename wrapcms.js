@@ -101,11 +101,10 @@ function getEditFormFields(wrapcmsType, fieldName, element) {
       titleInput.type = 'text';
       titleInput.name = 'title';
       var h1 = element.querySelector('h1');
-      titleInput.value = h1 !== null ? h1.innerHTML : '';
+      titleInput.value = h1 ? h1.innerHTML : '';
       titleInput.addEventListener('input', function(event) {
-        element.querySelector('h1')?.innerHTML = event.target.value;
         var h1 = element.querySelector('h1');
-        if (h1 !== null) {
+        if (h1) {
           h1.innerHTML = event.target.value;
         }
       });
