@@ -89,11 +89,13 @@ var editModal = document.getElementById('edit-modal');
 editModal.style.display = 'none';
 
 // Function to get the edit form fields based on the wrapcms element
-function getEditFormFields(wrapcmsType, fieldName, element) {
-  var editFormFields = document.createElement('div');
-  var fieldLabel = document.createElement('label');
-  fieldLabel.innerHTML = fieldName + ':';
-  editFormFields.appendChild(fieldLabel);
+function getEditFormFields() {
+  var formFields = {};
+  document.querySelectorAll('.editable').forEach(function (el) {
+    if (el) {
+      var fieldName = el.dataset.field;
+      var fieldValue = el.innerHTML.trim();
+      formFields[fieldName] = fieldValue;
 
   switch (wrapcmsType) {
     case 'title':
