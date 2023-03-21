@@ -88,7 +88,6 @@ wrapcmsElements.forEach(function(element) {
 var editModal = document.getElementById('edit-modal');
 editModal.style.display = 'none';
 
-// Function to get the edit form fields based on the wrapcms element
 function getEditFormFields(wrapcmsType, fieldName, element) {
   var editFormFields = document.createElement('span');
   var fieldLabel = document.createElement('label');
@@ -101,10 +100,11 @@ function getEditFormFields(wrapcmsType, fieldName, element) {
       titleInput.type = 'text';
       titleInput.name = 'title';
       var h1 = element.querySelector('h1');
-      titleInput.value = h1 ? h1.innerHTML : '';
+      titleInput.value = h1 !== null ? h1.innerHTML : '';
       titleInput.addEventListener('input', function(event) {
+        element.querySelector('h1')?.innerHTML = event.target.value;
         var h1 = element.querySelector('h1');
-        if (h1) {
+        if (h1 !== null) {
           h1.innerHTML = event.target.value;
         }
       });
@@ -114,18 +114,28 @@ function getEditFormFields(wrapcmsType, fieldName, element) {
       var headingInput = document.createElement('input');
       headingInput.type = 'text';
       headingInput.name = 'heading 2';
-      headingInput.value = element.querySelector('h2')?.innerHTML || '';
+      var h2 = element.querySelector('h2');
+      headingInput.value = h2 !== null ? h2.innerHTML : '';
       headingInput.addEventListener('input', function(event) {
         element.querySelector('h2')?.innerHTML = event.target.value;
+        var h2 = element.querySelector('h2');
+        if (h2 !== null) {
+          h2.innerHTML = event.target.value;
+        }
       });
       editFormFields.appendChild(headingInput);
       break;
     case 'content':
       var contentTextarea = document.createElement('textarea');
       contentTextarea.name = 'content';
-      contentTextarea.innerHTML = element.querySelector('p')?.innerHTML || '';
+      var p = element.querySelector('p');
+      contentTextarea.innerHTML = p !== null ? p.innerHTML : '';
       contentTextarea.addEventListener('input', function(event) {
         element.querySelector('p')?.innerHTML = event.target.value;
+        var p = element.querySelector('p');
+        if (p !== null) {
+          p.innerHTML = event.target.value;
+        }
       });
       editFormFields.appendChild(contentTextarea);
       break;
@@ -133,6 +143,7 @@ function getEditFormFields(wrapcmsType, fieldName, element) {
   }
   return editFormFields;
 }
+
 
 // Function to cancel editing and hide the modal
 function cancelEdit() {
