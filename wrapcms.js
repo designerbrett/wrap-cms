@@ -105,7 +105,9 @@ function getEditFormFields(wrapcmsType, fieldName, element) {
         element.querySelector('h1')?.innerHTML = event.target.value;
         var h1 = element.querySelector('h1');
         if (h1 !== null) {
-          h1.innerHTML = event.target.value;
+          titleInput.value = h1.innerHTML;
+        } else {
+          titleInput.value = '';
         }
       });
       editFormFields.appendChild(titleInput);
