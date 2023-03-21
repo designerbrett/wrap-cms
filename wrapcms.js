@@ -38,17 +38,6 @@ localStorage.setItem('uidCount', uidCount);
 // Add the new UID as a class with a prefix of "wrapcms-pageid-"
 document.body.classList.add(`wrapcms-pageid-${newUid}`);
 
-// Get the current page's URL path
-console.log(fileName);
-document.body.classList.add(fileName);
-const path = location.pathname;
-
-// Extract the file name from the URL path
-const fileName = path.substring(path.lastIndexOf('/') + 1);
-
-// Add the file name as a body class
-document.body.classList.add(fileName);
-
 
 var editButton = document.getElementById('edit-button');
 editButton.addEventListener('click', function(event) {
