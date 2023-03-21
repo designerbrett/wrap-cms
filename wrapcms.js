@@ -1,8 +1,19 @@
-// Generate a random UID
-const uid = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+// Get the last generated UID from local storage
+let lastUid = localStorage.getItem('lastUid');
 
-// Add the UID as a class with a prefix of "wrapcms-pageid-"
-document.body.classList.add(`wrapcms-pageid-${uid}`);
+// If there is no last UID, start with 1
+if (!lastUid) {
+  lastUid = 0;
+}
+
+// Increment the last UID and generate a new UID
+const newUid = ++lastUid + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+
+// Save the new UID to local storage
+localStorage.setItem('lastUid', lastUid);
+
+// Add the new UID as a class with a prefix of "wrapcms-pageid-"
+document.body.classList.add(`wrapcms-pageid-${newUid}`);
 
 // Get the current page's URL path
 const path = location.pathname;
