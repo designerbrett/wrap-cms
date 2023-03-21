@@ -1,16 +1,11 @@
-// Get the last generated UID from local storage
-let lastUid = localStorage.getItem('lastUid');
+// Get the current UID count from local storage
+let uidCount = parseInt(localStorage.getItem('uidCount')) || 0;
 
-// If there is no last UID, start with 1
-if (!lastUid) {
-  lastUid = 0;
-}
+// Increment the UID count and generate a new UID
+const newUid = ++uidCount;
 
-// Increment the last UID and generate a new UID
-const newUid = ++lastUid + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-
-// Save the new UID to local storage
-localStorage.setItem('lastUid', lastUid);
+// Save the new UID count to local storage
+localStorage.setItem('uidCount', uidCount);
 
 // Add the new UID as a class with a prefix of "wrapcms-pageid-"
 document.body.classList.add(`wrapcms-pageid-${newUid}`);
