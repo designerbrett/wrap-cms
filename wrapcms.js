@@ -154,12 +154,6 @@ function getEditFormFields(wrapcmsType, fieldName, element) {
         editField.value = '';
       }
     });
-    editFormFields.appendChild(editField);
-  
-    var valueSpan = document.createElement('span');
-    valueSpan.textContent = targetElement ? targetElement.innerHTML : '';
-    valueSpan.id = uid;
-    element.appendChild(valueSpan);
   }
   
   return editFormFields;
