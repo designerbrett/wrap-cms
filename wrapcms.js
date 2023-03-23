@@ -141,7 +141,8 @@ function getEditFormFields(wrapcmsType, fieldName, element) {
     var editField = document.createElement(inputField);
     editField.type = 'text';
     editField.name = wrapcmsType;
-    editField.id = uuidv4();
+    var uid = uuidv4();
+    editField.id = uid;
     var targetElement = element.querySelector(valueField);
     editField.value = targetElement ? targetElement.innerHTML : '';
     editField.addEventListener('input', function(event) {
@@ -154,8 +155,13 @@ function getEditFormFields(wrapcmsType, fieldName, element) {
       }
     });
     editFormFields.appendChild(editField);
+  
+    var valueSpan = document.createElement('span');
+    valueSpan.textContent = targetElement ? targetElement.innerHTML : '';
+    valueSpan.id = uid;
+    element.appendChild(valueSpan);
   }
-
+  
   return editFormFields;
 }
 
