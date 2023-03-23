@@ -65,9 +65,10 @@ wrapcmsElements.forEach(function(element) {
     var editedContent = inputFields.querySelector('[name]').value;
     localStorage.setItem(wrapcmsType, editedContent);
   });
-
+});
   // Load the edited content from localStorage
-  var editedContent = localStorage.getItem(wrapcmsType);
+// Load the edited content from localStorage
+var editedContent = localStorage.getItem(wrapcmsType);
 if (editedContent) {
   var targetElement;
   var fieldSelector;
@@ -98,6 +99,7 @@ if (editedContent) {
     targetElement[fieldSelector] = editedContent;
   }
 }
+
 
 var editModal = document.getElementById('edit-modal');
 editModal.style.display = 'none';
