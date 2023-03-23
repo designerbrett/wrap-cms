@@ -68,29 +68,37 @@ wrapcmsElements.forEach(function(element) {
 
   // Load the edited content from localStorage
   var editedContent = localStorage.getItem(wrapcmsType);
-  if (editedContent) {
-    switch (wrapcmsType) {
-      case 'doc-title':
-        element.querySelector('title').innerHTML = editedContent;
-        break;
-      case 'meta-description':
-        element.querySelector('meta[name="description"]').innerHTML = editedContent;
-        break;
-      case 'title':
-        element.querySelector('h1').innerHTML = editedContent;
-        break;
-      case 'heading-2':
-        element.querySelector('h2').innerHTML = editedContent;
-        break;
-      case 'content':
-        element.querySelector('p').innerHTML = editedContent;
-        break;
-      // Add more cases for other wrapcms types
-    }
+if (editedContent) {
+  var targetElement;
+  var fieldSelector;
+  switch (wrapcmsType) {
+    case 'doc-title':
+      targetElement = document.querySelector('title');
+      fieldSelector = 'innerHTML';
+      break;
+    case 'meta-description':
+      targetElement = document.querySelector('meta[name="description"]');
+      fieldSelector = 'content';
+      break;
+    case 'title':
+      targetElement = element.querySelector('h1');
+      fieldSelector = 'innerHTML';
+      break;
+    case 'heading-2':
+      targetElement = element.querySelector('h2');
+      fieldSelector = 'innerHTML';
+      break;
+    case 'content':
+      targetElement = element.querySelector('p');
+      fieldSelector = 'innerHTML';
+      break;
+    // Add more cases for other wrapcms types
   }
-});
+  if (targetElement) {
+    targetElement[fieldSelector] = editedContent;
+  }
+}
 
-// Show the edit modal
 var editModal = document.getElementById('edit-modal');
 editModal.style.display = 'none';
 
@@ -100,100 +108,55 @@ function getEditFormFields(wrapcmsType, fieldName, element) {
   fieldLabel.innerHTML = fieldName + ':';
   editFormFields.appendChild(fieldLabel);
 
+  var inputField;
+  var valueField;
+
   switch (wrapcmsType) {
     case 'title':
-      var titleInput = document.createElement('input');
-      titleInput.type = 'text';
-      titleInput.name = 'title';
-      titleInput.id = uuidv4();
-      var h1 = element.querySelector('h1');
-      titleInput.value = h1 !== null ? h1.innerHTML : '';
-      titleInput.addEventListener('input', function(event) {
-        var h1 = element.querySelector('h1');
-        if (h1 !== null && h1 !== undefined) {
-          h1.innerHTML = event.target.value;
-          titleInput.value = h1.innerHTML;
-        } else {
-          titleInput.value = '';
-        }
-      });
-      editFormFields.appendChild(titleInput);
+      inputField = 'input';
+      valueField = 'h1';
       break;
     case 'heading-2':
-      var headingInput = document.createElement('input');
-      headingInput.type = 'text';
-      headingInput.name = 'heading-2';
-      headingInput.id = uuidv4();
-      var h2 = element.querySelector('h2');
-      headingInput.value = h2 !== null ? h2.innerHTML : '';
-      headingInput.addEventListener('input', function(event) {
-        var h2 = element.querySelector('h2');
-        if (h2 !== null && h2 !== undefined) {
-          h2.innerHTML = event.target.value;
-          headingInput.value = h2.innerHTML;
-        } else {
-          headingInput.value = '';
-        }
-      });
-      editFormFields.appendChild(headingInput);
+      inputField = 'input';
+      valueField = 'h2';
       break;
     case 'content':
-      var contentTextarea = document.createElement('textarea');
-      contentTextarea.name = 'content';
-      contentTextarea.id = uuidv4();
-      var p = element.querySelector('p');
-      contentTextarea.innerHTML = p !== null ? p.innerHTML : '';
-      contentTextarea.addEventListener('input', function(event) {
-        var p = element.querySelector('p');
-        if (p !== null && p !== undefined) {
-          p.innerHTML = event.target.value;
-          contentTextarea.value = p.innerHTML;
-        } else {
-          contentTextarea.value = '';
-        }
-      });
-      editFormFields.appendChild(contentTextarea);
+      inputField = 'textarea';
+      valueField = 'p';
       break;
     case 'meta-description':
-      var metaDescInput = document.createElement('textarea');
-      metaDescInput.type = 'text';
-      metaDescInput.name = 'meta-description';
-      metaDescInput.id = uuidv4();
-      var metaDesc = element.querySelector('meta[name="description"]');
-      metaDescInput.value = metaDesc !== null ? metaDesc.content : '';
-      metaDescInput.addEventListener('input', function(event) {
-        var metaDesc = element.querySelector('meta[name="description"]');
-        if (metaDesc !== null && metaDesc !== undefined) {
-          metaDesc.content = event.target.value;
-          metaDescInput.value = metaDesc.content;
-        } else {
-          metaDescInput.value = '';
-        }
-      });
-      editFormFields.appendChild(metaDescInput);
+      inputField = 'textarea';
+      valueField = 'meta[name="description"]';
       break;
     case 'doc-title':
-      var docTitleInput = document.createElement('input');
-      docTitleInput.type = 'text';
-      docTitleInput.name = 'doc-title';
-      docTitleInput.id = uuidv4();
-      var docTitle = document.querySelector('title');
-      docTitleInput.value = docTitle !== null ? docTitle.innerHTML : '';
-      docTitleInput.addEventListener('input', function(event) {
-        var docTitle = document.querySelector('title');
-        if (docTitle !== null && docTitle !== undefined) {
-          docTitle.innerHTML = event.target.value;
-          docTitleInput.value = docTitle.innerHTML;
-        } else {
-          docTitleInput.value = '';
-        }
-      });
-      editFormFields.appendChild(docTitleInput);
+      inputField = 'input';
+      valueField = 'title';
       break;
     // Add more cases for other wrapcms types
   }
+
+  if (inputField && valueField) {
+    var editField = document.createElement(inputField);
+    editField.type = 'text';
+    editField.name = wrapcmsType;
+    editField.id = uuidv4();
+    var targetElement = element.querySelector(valueField);
+    editField.value = targetElement ? targetElement.innerHTML : '';
+    editField.addEventListener('input', function(event) {
+      var targetElement = element.querySelector(valueField);
+      if (targetElement) {
+        targetElement.innerHTML = event.target.value;
+        editField.value = targetElement.innerHTML;
+      } else {
+        editField.value = '';
+      }
+    });
+    editFormFields.appendChild(editField);
+  }
+
   return editFormFields;
 }
+
 
 
 // Function to generate a unique ID
