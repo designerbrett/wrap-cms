@@ -171,13 +171,13 @@ function getEditFormFields(wrapcmsType, fieldName, element) {
       docTitleInput.type = 'text';
       docTitleInput.name = 'doc-title';
       docTitleInput.id = uuidv4();
-      var docTitle = element.querySelector('title');
-      docTitleInput.value = docTitle !== null ? docTitle.content : '';
+      var docTitle = document.querySelector('title');
+      docTitleInput.value = docTitle !== null ? docTitle.innerHTML : '';
       docTitleInput.addEventListener('input', function(event) {
-        var docTitle = element.querySelector('title');
+        var docTitle = document.querySelector('title');
         if (docTitle !== null && docTitle !== undefined) {
-          docTitle.content = event.target.value;
-          docTitleInput.value = docTitle.content;
+          docTitle.innerHTML = event.target.value;
+          docTitleInput.value = docTitle.innerHTML;
         } else {
           docTitleInput.value = '';
         }
