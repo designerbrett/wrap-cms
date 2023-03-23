@@ -166,6 +166,24 @@ function getEditFormFields(wrapcmsType, fieldName, element) {
       });
       editFormFields.appendChild(metaDescInput);
       break;
+    case 'doc-title':
+      var docTitleInput = document.createElement('input');
+      docTitleInput.type = 'text';
+      docTitleInput.name = 'doc-title';
+      docTitleInput.id = uuidv4();
+      var docTitle = element.querySelector('title');
+      docTitleInput.value = docTitle !== null ? docTitle.content : '';
+      docTitleInput.addEventListener('input', function(event) {
+        var docTitle = element.querySelector('title');
+        if (docTitle !== null && docTitle !== undefined) {
+          docTitle.content = event.target.value;
+          docTitleInput.value = docTitle.content;
+        } else {
+          docTitleInput.value = '';
+        }
+      });
+      editFormFields.appendChild(docTitleInput);
+      break;
     // Add more cases for other wrapcms types
   }
   return editFormFields;
