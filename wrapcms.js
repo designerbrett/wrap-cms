@@ -148,10 +148,29 @@ function getEditFormFields(wrapcmsType, fieldName, element) {
       });
       editFormFields.appendChild(contentTextarea);
       break;
+    case 'meta-description':
+      var metaDescInput = document.createElement('input');
+      metaDescInput.type = 'text';
+      metaDescInput.name = 'meta-description';
+      metaDescInput.id = uuidv4();
+      var metaDesc = element.querySelector('meta[name="description"]');
+      metaDescInput.value = metaDesc !== null ? metaDesc.content : '';
+      metaDescInput.addEventListener('input', function(event) {
+        var metaDesc = element.querySelector('meta[name="description"]');
+        if (metaDesc !== null && metaDesc !== undefined) {
+          metaDesc.content = event.target.value;
+          metaDescInput.value = metaDesc.content;
+        } else {
+          metaDescInput.value = '';
+        }
+      });
+      editFormFields.appendChild(metaDescInput);
+      break;
     // Add more cases for other wrapcms types
   }
   return editFormFields;
 }
+
 
 // Function to generate a unique ID
 function uuidv4() {
@@ -160,8 +179,6 @@ function uuidv4() {
     return v.toString(16);
   });
 }
-
-
 
 // Function to cancel editing and hide the modal
 function cancelEdit() {
