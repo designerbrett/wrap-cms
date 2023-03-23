@@ -172,5 +172,3 @@ function cancelEdit() {
   var editModal = document.getElementById('edit-modal');
   editModal.style.display = 'none';
 }
-
-
