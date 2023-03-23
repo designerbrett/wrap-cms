@@ -70,6 +70,12 @@ wrapcmsElements.forEach(function(element) {
   var editedContent = localStorage.getItem(wrapcmsType);
   if (editedContent) {
     switch (wrapcmsType) {
+      case 'doc-title':
+        element.querySelector('title').innerHTML = editedContent;
+        break;
+      case 'meta-description':
+        element.querySelector('meta[name="description"]').innerHTML = editedContent;
+        break;
       case 'title':
         element.querySelector('h1').innerHTML = editedContent;
         break;
