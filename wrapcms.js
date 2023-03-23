@@ -149,7 +149,7 @@ function getEditFormFields(wrapcmsType, fieldName, element) {
       editFormFields.appendChild(contentTextarea);
       break;
     case 'meta-description':
-      var metaDescInput = document.createElement('input');
+      var metaDescInput = document.createElement('textarea');
       metaDescInput.type = 'text';
       metaDescInput.name = 'meta-description';
       metaDescInput.id = uuidv4();
