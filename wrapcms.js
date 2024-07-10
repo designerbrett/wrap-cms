@@ -1,178 +1,164 @@
-// Select the wrap-header element
-var wrapHeader = document.querySelector('wrap-header');
+// Generate a unique identifier (UID)
+function generateUID() {
+  return Math.random().toString(36).substr(2, 6);
+}
 
-// Load the custom header HTML from a separate file
-var headerXhr = new XMLHttpRequest();
-headerXhr.open('GET', '/header.html', true);
-headerXhr.onreadystatechange = function() {
-  if (headerXhr.readyState === 4 && headerXhr.status === 200) {
-    // Set the innerHTML of the wrap-header element to the loaded HTML
-    wrapHeader.innerHTML = headerXhr.responseText;
+// Get the current page name
+var pageName = window.location.pathname.split('/').pop().split('.')[0];
+
+// Load the data for the current page from the included JSON file
+var data = {};
+document.addEventListener('DOMContentLoaded', function() {
+  var jsonScript = document.querySelector('script[type="application/json"]');
+  if (jsonScript && jsonScript.textContent.trim() !== '') {
+    try {
+      var jsonData = JSON.parse(jsonScript.textContent);
+      if (jsonData && jsonData.name === pageName) {
+        data = jsonData.data;
+      }
+    } catch (error) {
+      console.warn('Error parsing JSON data:', error);
+    }
   }
-};
-headerXhr.send();
+  
+  var wrapcmsElements = document.querySelectorAll('[wrapcms]');
+  wrapcmsElements.forEach(function(element) {
+    var uid = element.getAttribute('wrapcms');
+    if (!uid) {
+      uid = generateUID();
+      element.setAttribute('wrapcms', uid);
+      data[uid] = {
+        type: element.getAttribute('type'),
+        content: element.innerHTML
+      };
+    } else {
+      if (data[uid]) {
+        element.innerHTML = data[uid].content;
+      }
+    }
+  });
+});
 
-// Select the wrap-footer element
-var wrapFooter = document.querySelector('wrap-footer');
+// Populate the page with the loaded data
+function populatePageData() {
+  var wrapcmsElements = document.querySelectorAll('[wrapcms]');
+  wrapcmsElements.forEach(function(element) {
+    var uid = element.getAttribute('wrapcms');
+    var placeholderElement = element.querySelector('[wrapcms-placeholder="' + uid + '"]');
+    var editedContent = data[uid] ? data[uid].content : null;
+    if (placeholderElement && editedContent) {
+      placeholderElement.innerHTML = editedContent;
+    }
+  });
+}
 
-// Load the custom footer HTML from a separate file
-var footerXhr = new XMLHttpRequest();
-footerXhr.open('GET', '/footer.html', true);
-footerXhr.onreadystatechange = function() {
-  if (footerXhr.readyState === 4 && footerXhr.status === 200) {
-    // Set the innerHTML of the wrap-footer element to the loaded HTML
-    wrapFooter.innerHTML = footerXhr.responseText;
-  }
-};
-footerXhr.send();
-
-// Get the current UID count from local storage
-let uidCount = parseInt(localStorage.getItem('uidCount')) || 0;
-
-// Increment the UID count and generate a new UID
-const newUid = ++uidCount;
-
-// Save the new UID count to local storage
-localStorage.setItem('uidCount', uidCount);
-
-// Add the new UID as a class with a prefix of "wrapcms-pageid-"
-document.body.classList.add(`wrapcms-pageid-${newUid}`);
-
-
+// Edit button click event
 var editButton = document.getElementById('edit-button');
 editButton.addEventListener('click', function(event) {
   event.preventDefault();
-
-  // Show the edit modal
   var editModal = document.getElementById('edit-modal');
   editModal.style.display = 'block';
+  populateEditForm();
 });
 
-// Find all wrapcms elements and display their editable inputs in the modal
-var wrapcmsElements = document.querySelectorAll('[wrapcms]');
-wrapcmsElements.forEach(function(element) {
-  // Get the wrapcms type and the input fields
-  var wrapcmsType = element.getAttribute('wrapcms');
-  var fieldName = element.getAttribute('field-name');
-  var inputFields = getEditFormFields(wrapcmsType, fieldName, element);
-
-  // Add the input fields to the edit form
+// Populate the edit form with the current field values
+function populateEditForm() {
   var editFormFieldsContainer = document.getElementById('edit-form-fields');
-  editFormFieldsContainer.appendChild(inputFields);
-
-  // Save the edited content to localStorage when the input fields change
-  inputFields.addEventListener('change', function() {
-    var editedContent = inputFields.querySelector('[name]').value;
-    localStorage.setItem(wrapcmsType, editedContent);
+  editFormFieldsContainer.innerHTML = ''; // Clear previous form fields
+  var wrapcmsElements = document.querySelectorAll('[wrapcms]');
+  wrapcmsElements.forEach(function(element) {
+    var uid = element.getAttribute('wrapcms');
+    var fieldName = element.getAttribute('field-name');
+    var inputFields = getEditFormFields(uid, fieldName, element);
+    editFormFieldsContainer.appendChild(inputFields);
+    console.log('Populated edit form field:', uid, inputFields.querySelector('[name]').value);
   });
-});
-  // Load the edited content from localStorage
-// Load the edited content from localStorage
-var editedContent = localStorage.getItem(wrapcmsType);
-if (editedContent) {
-  var targetElement;
-  var fieldSelector;
-  switch (wrapcmsType) {
-    case 'doc-title':
-      targetElement = document.querySelector('title');
-      fieldSelector = 'innerHTML';
-      break;
-    case 'meta-description':
-      targetElement = document.querySelector('meta[name="description"]');
-      fieldSelector = 'content';
-      break;
-    case 'title':
-      targetElement = element.querySelector('h1');
-      fieldSelector = 'innerHTML';
-      break;
-    case 'heading-2':
-      targetElement = element.querySelector('h2');
-      fieldSelector = 'innerHTML';
-      break;
-    case 'content':
-      targetElement = element.querySelector('p');
-      fieldSelector = 'innerHTML';
-      break;
-    // Add more cases for other wrapcms types
-  }
-  if (targetElement) {
-    targetElement[fieldSelector] = editedContent;
-  }
 }
 
+// Save the edited content to data object
+var editForm = document.getElementById('edit-form');
+editForm.addEventListener('submit', function(event) {
+  event.preventDefault();
+  var inputFields = editForm.querySelectorAll('[name]');
+  inputFields.forEach(function(inputField) {
+    var uid = inputField.name;
+    var editedContent = inputField.value;
+    if (data[uid]) {
+      data[uid].content = editedContent;
+    } else {
+      var wrapcmsElement = document.querySelector(`[wrapcms="${uid}"]`);
+      var wrapcmsType = wrapcmsElement.getAttribute('type');
+      data[uid] = {
+        type: wrapcmsType,
+        content: editedContent
+      };
+    }
+  });
+  savePageData();
+  var editModal = document.getElementById('edit-modal');
+  editModal.style.display = 'none';
+});
 
-var editModal = document.getElementById('edit-modal');
-editModal.style.display = 'none';
+// Save the edited content to JSON file and download HTML
+function savePageData() {
+  // Save JSON data
+  var pageData = {
+    name: pageName,
+    data: data
+  };
+  var jsonDataString = JSON.stringify(pageData, null, 2);
+  var jsonBlob = new Blob([jsonDataString], { type: 'application/json' });
+  var jsonUrl = URL.createObjectURL(jsonBlob);
+  var jsonLink = document.createElement('a');
+  jsonLink.href = jsonUrl;
+  jsonLink.download = 'wrapcms-data.json';
 
-function getEditFormFields(wrapcmsType, fieldName, element) {
-  var editFormFields = document.createElement('span');
+  // Create a clone of the current document
+  var clonedDocument = document.cloneNode(true);
+
+  // Remove the content of editable elements in the cloned document
+  var wrapcmsElements = clonedDocument.querySelectorAll('[wrapcms]');
+  wrapcmsElements.forEach(function(element) {
+    element.innerHTML = '';
+  });
+
+  // Get the HTML content of the cloned document
+  var htmlContent = clonedDocument.documentElement.outerHTML;
+  var htmlBlob = new Blob([htmlContent], { type: 'text/html' });
+  var htmlUrl = URL.createObjectURL(htmlBlob);
+  var htmlLink = document.createElement('a');
+  htmlLink.href = htmlUrl;
+  htmlLink.download = pageName + '.html';
+
+  // Trigger downloads
+  jsonLink.click();
+  htmlLink.click();
+
+  // Clean up
+  URL.revokeObjectURL(jsonUrl);
+  URL.revokeObjectURL(htmlUrl);
+}
+
+// Function to generate edit form fields
+function getEditFormFields(uid, fieldName, element) {
+  var editFormFields = document.createElement('div');
   var fieldLabel = document.createElement('label');
   fieldLabel.innerHTML = fieldName + ':';
   editFormFields.appendChild(fieldLabel);
 
   var inputField;
-  var valueField;
-
-  switch (wrapcmsType) {
-    case 'title':
-      inputField = 'input';
-      valueField = 'h1';
-      break;
-    case 'heading-2':
-      inputField = 'input';
-      valueField = 'h2';
-      break;
-    case 'content':
-      inputField = 'textarea';
-      valueField = 'p';
-      break;
-    case 'meta-description':
-      inputField = 'textarea';
-      valueField = 'meta[name="description"]';
-      break;
-    case 'doc-title':
-      inputField = 'input';
-      valueField = 'title';
-      break;
-    // Add more cases for other wrapcms types
+  var wrapcmsType = element.getAttribute('type');
+  if (wrapcmsType === 'content' || wrapcmsType === 'meta-description') {
+    inputField = document.createElement('textarea');
+  } else {
+    inputField = document.createElement('input');
+    inputField.type = 'text';
   }
+  inputField.name = uid;
+  inputField.value = element.innerHTML;
+  editFormFields.appendChild(inputField);
 
-  if (inputField && valueField) {
-    var editField = document.createElement(inputField);
-    editField.type = 'text';
-    editField.name = wrapcmsType;
-    var uid = uuidv4();
-    editField.id = uid;
-    var targetElement = element.querySelector(valueField);
-    editField.value = targetElement ? targetElement.innerHTML : '';
-    editField.addEventListener('input', function(event) {
-      var targetElement = element.querySelector(valueField);
-      if (targetElement) {
-        targetElement.innerHTML = event.target.value;
-        editField.value = targetElement.innerHTML;
-      } else {
-        editField.value = '';
-      }
-    });
-    editFormFields.appendChild(editField);
-  
-    var valueSpan = document.createElement('span');
-    valueSpan.textContent = targetElement ? targetElement.innerHTML : '';
-    valueSpan.id = uid;
-    element.appendChild(valueSpan);
-  }
-  
   return editFormFields;
-}
-
-
-
-// Function to generate a unique ID
-function uuidv4() {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-    return v.toString(16);
-  });
 }
 
 // Function to cancel editing and hide the modal

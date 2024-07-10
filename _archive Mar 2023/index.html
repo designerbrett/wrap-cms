@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <span wrapcms="doc-title" field-name="Document Title"><title>WrapCMS Example</title></span>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+    <link rel="stylesheet" href="wrapcms.css">
+
+    <span wrapcms="meta-description" field-name="Meta description"><meta name="description" content="Some tags are vital for SEO. Others have little or no impact on rankings. Here's every type of meta tag you need to know about.The purpose of a meta description is to reflect the essence of a page, but with more details and context."/></span>
+
+  </head>
+  <body>
+    <button id="edit-button">Edit</button>
+    <wrap-header></wrap-header>
+    
+    <span wrapcms="title" field-name="Page Title"><h1>My Website 03</h1></span>
+    
+    <p>Welcome to my website! Here is some content that you can edit:</p>
+
+    <div id="content-1">
+      <span wrapcms="heading-2" field-name="About Header"><h2>Section 1</h2></span>
+      <span wrapcms="content" field-name="About content"><p>This is some content that you can edit.</p></span>
+    </div>
+
+    <div id="content-2">
+        <span wrapcms="heading-2" field-name="Section Header 2"><h2>Section 2</h2></span>
+        <span wrapcms="heading-2" field-name="Section content 2"><p id="textarea">This is some more content that you can edit.</p></span>
+    </div>
+
+    <wrap-footer></wrap-footer>
+    
+ <!-- Edit modal -->
+ <div id="edit-modal">
+    <div id="edit-modal-content">
+      <span id="edit-modal-close" onclick="cancelEdit()">&times;</span>
+      <form id="edit-form">
+        <div id="edit-form-fields"></div>
+        <button type="submit">Save</button>
+        <button type="button" onclick="cancelEdit()">Cancel</button>
+      </form>
+    </div>
+  </div>
+
+    <script src="wrapcms.js"></script>
+  </body>
+</html>
+
